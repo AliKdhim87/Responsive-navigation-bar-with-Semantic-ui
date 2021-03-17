@@ -28,6 +28,7 @@ const Layout = ({ children }) => {
         animation="push"
         color="blue"
         inverted
+        onHide={() => setVisible(false)}
         vertical
         visible={visible}
         width="thin"
