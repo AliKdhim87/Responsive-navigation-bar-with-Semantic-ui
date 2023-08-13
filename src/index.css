@@ -33,7 +33,7 @@
   min-height: 100vh;
 }
 
-.nav__button-close{
+.nav__toggle-button {
   inline-size: fit-content;
   margin-inline-start: auto !important;
 }

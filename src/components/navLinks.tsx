@@ -1,18 +1,28 @@
-import { Button, List } from "semantic-ui-react";
+import { Button, ButtonProps, List } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 
-function isActive(path: string, currentPage: string) {
-  return currentPage === path;
-}
+export const isActive = (path: string) => window.location.pathname === path;
 
 export const NavLinks = ({
-  mobile = true,
+  mobile,
   currentPage,
+  setVisible,
 }: {
   mobile: boolean;
   currentPage: string;
+  setVisible?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const [currentLink, setCurrentLink] = useState<boolean>(false);
+  const onNavLinkClickHandler = (
+    _event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    data: ButtonProps
+  ) => {
+    isActive(data.to);
+    setCurrentLink(true);
+    setVisible(false);
+  };
+
   return (
     <List
       role="menubar"
@@ -27,7 +37,8 @@ export const NavLinks = ({
           <Button
             role="menuitem"
             as={NavLink}
-            aria-current={isActive("/", currentPage) ? "page" : undefined}
+            onClick={onNavLinkClickHandler}
+            aria-current={currentLink ? "page" : undefined}
             to="/"
             color="blue"
             fluid
@@ -41,12 +52,13 @@ export const NavLinks = ({
           <Button
             role="menuitem"
             fluid
+            onClick={onNavLinkClickHandler}
             as={NavLink}
-            to="/about"
+            to="/contact"
             color="blue"
-            aria-current={isActive("/about", currentPage) ? "page" : undefined}
+            aria-current={currentLink ? "page" : undefined}
           >
-            About
+            Contact
           </Button>
         </List.Content>
       </List.Item>
@@ -56,13 +68,12 @@ export const NavLinks = ({
             role="menuitem"
             fluid
             as={NavLink}
-            to="/dashboard"
+            to="/about"
             color="blue"
-            aria-current={
-              isActive("/dashboard", currentPage) ? "page" : undefined
-            }
+            onClick={onNavLinkClickHandler}
+            aria-current={currentLink ? "page" : undefined}
           >
-            Dashboard
+            About
           </Button>
         </List.Content>
       </List.Item>
